@@ -1,5 +1,6 @@
 use rusqlite::{Connection, Result};
 use std::path::Path;
+use rembirth::match_functions;
 
 fn create_database() -> Result<()> {
     let db_path = "birth.db";
@@ -31,6 +32,8 @@ fn main() {
     if let Err(e) = create_database() {
         eprintln!("Error creating database: {}", e);
     }
+
+    match_functions();
 
 
 
