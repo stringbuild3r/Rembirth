@@ -1,0 +1,9 @@
+[package]
+name = "rembirth"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+chrono = "0.4.42"
+rusqlite = { version = "0.38.0", features = ["bundled"] }
+uuid = "1.19.0"
