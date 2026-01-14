@@ -5,4 +5,5 @@ edition = "2024"
 
 [dependencies]
 chrono = "0.4.42"
+pretty-sqlite = "=0.4.0"
 rusqlite = { version = "0.38.0", features = ["bundled"] }

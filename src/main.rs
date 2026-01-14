@@ -1,13 +1,12 @@
+use rembirth::match_functions;
 use rusqlite::{Connection, Result};
 use std::path::Path;
-use rembirth::match_functions;
 
 fn create_database() -> Result<()> {
     let db_path = "birth.db";
 
     if Path::new(db_path).exists() {
-        println!("Database already exists, skipping creation.");
-            return Ok(());
+        return Ok(());
     }
 
     println!("Creating new database...");
@@ -34,8 +33,4 @@ fn main() {
     }
 
     match_functions();
-
-
-
-
 }
