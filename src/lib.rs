@@ -34,35 +34,37 @@ pub fn match_functions() {
     match query {
         "new"=> new(&args),
         "get" => list(),
-        _ => println!("Unknown command"),
+        &_ => eprintln!("Not a function"),
+        
         }
     }
 }
-
 //cargo run -- new "aryan" 01 30 2007
 pub fn new(argum: &[String]) {
-    let b_struct = Birthday {
+    let birthing = Birthday {
         name: argum[2].clone(),
         month: argum[3].parse::<i32>().unwrap(),
         day: argum[4].parse::<i32>().unwrap(),
         year: argum[5].parse::<i32>().unwrap(),
     };
 
-    let conn = Connection::open("birth.db").expect("Failed to open database");
+    adding_to_db(&birthing);
 
-    conn.execute(
-        "INSERT INTO birthdays (name, month, day, year) VALUES (?1, ?2, ?3, ?4)",
-     (b_struct.name(), b_struct.month(), b_struct.day(), b_struct.year()),
-    ).expect("Failed to insert birthday");
-
-    println!("Added birthday for {}", b_struct.name());
 }
 
+//TODO: implement this everything is said and done
 pub fn list() {
     unimplemented!()
 }
 
 
-fn adding_to_db() -> Birthday {
-    unimplemented!()
+fn adding_to_db(f_birth: &Birthday) {
+    let conn = Connection::open("birth.db").expect("failed to open database");
+
+    conn.execute(
+        "INSERT INTO birthdays (name, month, day, year) VALUES (?1, ?2, ?3, ?4)",
+     (f_birth.name(), f_birth.month(), f_birth.day(), f_birth.year()),
+    ).expect("Failed to insert birthday");
+
+    println!("Added birthday for {}", f_birth.name());
 }
