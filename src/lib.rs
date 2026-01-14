@@ -60,7 +60,9 @@ impl App {
                 |row| row.get(0)
             )?;
 
-        for l in 
+        for i in 0..max_id {
+            //
+        }
 
 
         Ok(())
