@@ -53,16 +53,28 @@ impl App {
     }
     
     fn calculations(&self) -> Result<(), Box<dyn std::error::Error>> {
-        let conn = Connection::open("birth.db")?; //claude generated
+        let conn = Connection::open("birth.db")?; 
             let max_id: i64 = conn.query_row(
                 "SELECT MAX(id) FROM Birthdays",
                 [],
-                |row| row.get(0)
+                |row| row.get(0) 
             )?;
+        //not right
+        for i in 1..= max_id {
+            let month: u32 = match conn.query_row(
+                "SELECT month FROM Birthdays WHERE id = ?1",
+                [i],            
+                |row| row.get(0)
+            ) {
+                Ok(m) => m,
+                Err(_) => {
+                    println!("ID {} not found, skipping...", i);
+                    continue;
+                }
+            };
 
-        for i in 0..max_id {
-            //
-        }
+    println!("ID: {}, Month: {}", i, month);
+}
 
 
         Ok(())
