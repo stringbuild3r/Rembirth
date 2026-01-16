@@ -1,6 +1,6 @@
 use rusqlite::Connection;
 use chrono::prelude::*;
-use std::env;
+use std::{env, usize};
 use pretty_sqlite::print_table;
 
 struct Birthday {
@@ -55,37 +55,47 @@ impl App {
     
     fn calculations(&self) -> Result<(), Box<dyn std::error::Error>> {
         let local_datetime: DateTime<Local> = Local::now();
-        let month_number: u32 = local_datetime.month();
-        let date_number: u32 = local_datetime.day();
+        let curr_month: u32 = local_datetime.month();
+        let curr_date: u32 = local_datetime.day();
 
-        println!("{date_number}");
         let conn = Connection::open("birth.db")?; 
             let max_id: i64 = conn.query_row(
                 "SELECT MAX(id) FROM Birthdays",
                 [],
                 |row| row.get(0) 
             )?;
-
+        
+        let id_tracker: Option<i32> = None;
 
         for i in 1..= max_id {
             let month: u32 = match conn.query_row(
-                "SELECT month FROM Birthdays WHERE id = ?1",
+                "select month from birthdays where id = ?1",
                 [i],            
                 |row| row.get(0)
             ) {
                 Ok(mon) => mon,
                 Err(_) => {
-                    println!("ID {} not found", i);
                     continue;
                 }
             };
+
+
+            if curr_month > month {
+                continue;
+            } else {
+                
+            }
                 
 
-    //println!("ID: {}, Month: {}", i, month);
-}
-
-
+    }
         Ok(())
+    }
+
+    fn get_doy(mon: u32, day: u32) -> u32 {
+        let cum_days: Vec<u32> = vec![0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+        let month_offset = cum_days.get((mon-1) as usize).unwrap(); //as usize necessary for valid
+        //index type
+        month_offset + day
     }
 
 }
