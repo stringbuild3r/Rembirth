@@ -1,4 +1,5 @@
 use rusqlite::Connection;
+use chrono::prelude::*;
 use std::env;
 use pretty_sqlite::print_table;
 
@@ -53,27 +54,34 @@ impl App {
     }
     
     fn calculations(&self) -> Result<(), Box<dyn std::error::Error>> {
+        let local_datetime: DateTime<Local> = Local::now();
+        let month_number: u32 = local_datetime.month();
+        let date_number: u32 = local_datetime.day();
+
+        println!("{date_number}");
         let conn = Connection::open("birth.db")?; 
             let max_id: i64 = conn.query_row(
                 "SELECT MAX(id) FROM Birthdays",
                 [],
                 |row| row.get(0) 
             )?;
-        //not right
+
+
         for i in 1..= max_id {
             let month: u32 = match conn.query_row(
                 "SELECT month FROM Birthdays WHERE id = ?1",
                 [i],            
                 |row| row.get(0)
             ) {
-                Ok(m) => m,
+                Ok(mon) => mon,
                 Err(_) => {
-                    println!("ID {} not found, skipping...", i);
+                    println!("ID {} not found", i);
                     continue;
                 }
             };
+                
 
-    println!("ID: {}, Month: {}", i, month);
+    //println!("ID: {}, Month: {}", i, month);
 }
 
 
