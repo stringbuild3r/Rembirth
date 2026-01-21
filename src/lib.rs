@@ -68,7 +68,7 @@ impl App {
 
         for i in 1..=max_id {
             let month: u32 =
-                match conn.query_row("select month from birthdays where id = ?1", [i], |row| {
+                match conn.query_row("Select month from birthdays where id = ?1", [i], |row| {
                     row.get(0)
                 }) {
                     Ok(mon) => mon,
@@ -76,7 +76,7 @@ impl App {
                 };
 
             let day: u32 =
-                match conn.query_row("select day from birthdays where id = ?1", [i], |row| {
+                match conn.query_row("Select day from birthdays where id = ?1", [i], |row| {
                     row.get(0)
                 }) {
                     Ok(da) => da,
@@ -84,7 +84,7 @@ impl App {
                 };
 
             let _year: u32 =
-                match conn.query_row("select year from birthdays where id = ?1", [i], |row| {
+                match conn.query_row("Select year from birthdays where id = ?1", [i], |row| {
                     row.get(0)
                 }) {
                     Ok(ye) => ye,
