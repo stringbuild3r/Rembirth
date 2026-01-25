@@ -176,7 +176,6 @@ pub fn list() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 pub fn calculations() -> Result<(), Box<dyn std::error::Error>> {
-    //box dyn is dynamic error handle
     let app = App::new()?;
     app.calculations()?;
     Ok(())
